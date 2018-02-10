@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <title><%= title %></title>
+    <% posts.each do |post| %>
+        <entry>
+            <title><%= post.title %></title>
+            <link href="<%= post.url %>" />
+            <author>
+                <name><%= post.author %></name>
+            </author>
+            <published><%= post.published %></published>
+            <id><%= post.id %></id>
+            <content type="html">
+                <![CDATA[
+                <% if post.media_type == "image" %>
+                    <img src="<%= post.media_url %>">
+                <% elsif post.media_type == "hosted:video" && post.reddit_video %>
+                    <video poster="<%= post.poster %>">
+                      <source src="<%= post.reddit_video.dig("hls_url") %>" type="application/x-mpegURL">
+                      <source src="<%= post.reddit_video.dig("dash_url") %>" type="application/dash+xml">
+                      <source src="<%= post.reddit_video.dig("fallback_url") %>" type="video/mp4">
+                    </video>
+                <% elsif post.media_type == "imgur" %>
+                    <blockquote class="imgur-embed-pub" lang="en" data-id="<%= post.imgur_id %>">
+                        <a href="<%= post.imgur_url %>"></a>
+                    </blockquote>
+                    <script async src="//s.imgur.com/min/embed.js" charset="utf-8"></script>
+                <% elsif post.media_type == "oembed" %>
+                    <%= post.oembed %>
+                <% end %>
+                ]]>
+            </content>
+        </entry>
+    <% end %>
+</feed>
