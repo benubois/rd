@@ -27,8 +27,8 @@ class RedditController < WEBrick::HTTPServlet::AbstractServlet
     @uri ||= begin
       URI::HTTPS.build(
         host: "www.reddit.com",
-        path: "/r/#{subreddit}/new.json",
-        query: "sort=new&limit=20",
+        path: "/r/#{subreddit}/top.json",
+        query: "limit=20",
       )
     end
   end
