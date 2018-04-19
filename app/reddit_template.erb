@@ -13,7 +13,7 @@
             <content type="html">
                 <![CDATA[
                 <% if post.media_type == "image" %>
-                    <img src="<%= post.media_url %>">
+                    <a href="<%= post.media_url %>"><img src="<%= post.media_url %>"></a>
                 <% elsif post.media_type == "hosted:video" && post.reddit_video %>
                     <video poster="<%= post.poster %>">
                       <source src="<%= post.reddit_video.dig("hls_url") %>" type="application/x-mpegURL">
@@ -21,10 +21,7 @@
                       <source src="<%= post.reddit_video.dig("fallback_url") %>" type="video/mp4">
                     </video>
                 <% elsif post.media_type == "imgur" %>
-                    <blockquote class="imgur-embed-pub" lang="en" data-id="<%= post.imgur_id %>">
-                        <a href="<%= post.imgur_url %>"></a>
-                    </blockquote>
-                    <script async src="//s.imgur.com/min/embed.js" charset="utf-8"></script>
+                    <a href="<%= post.imgur_url %>"><img src="<%= post.imgur_image_url %>"></a>
                 <% elsif post.media_type == "oembed" %>
                     <%= post.oembed %>
                 <% end %>

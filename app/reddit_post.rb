@@ -77,4 +77,8 @@ class RedditPost
     "https://imgur.com/#{imgur_id}"
   end
 
+  def imgur_image_url
+    "#{imgur_url}.jpg"
+  end
+
 end
