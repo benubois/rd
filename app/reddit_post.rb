@@ -43,7 +43,7 @@ class RedditPost
   end
 
   def reddit_video
-    @data.dig("data", "secure_media", "reddit_video")
+    @data.dig("data", "crosspost_parent_list", 0, "secure_media", "reddit_video") || @data.dig("data", "secure_media", "reddit_video")
   end
 
   def poster
@@ -78,7 +78,7 @@ class RedditPost
   end
 
   def imgur_image_url
-    "#{imgur_url}.jpg"
+    "#{imgur_url}.gif"
   end
 
 end
