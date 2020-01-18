@@ -1,5 +1,7 @@
 class RedditPost
 
+  GFYCAT_URL = /https?:\/\/(?:(?:www|giant|thumbs)\.)?gfycat\.com\/(?:ru\/|ifr\/|gifs\/detail\/)?(?<video_id>[^-\/?#\.]+)/
+
   def initialize(data)
     @data = data
   end
@@ -32,6 +34,9 @@ class RedditPost
       if @data.dig("data", "domain") == "imgur.com" || @data.dig("data", "domain") == "i.imgur.com"
         hint = "imgur"
       end
+    elsif @data.dig("data", "url") && GFYCAT_URL =~ @data.dig("data", "url")
+      @gfycat_id = $1
+      hint = "gfycat"
     elsif @data.dig("data", "media", "oembed")
       hint = "oembed"
     end
@@ -71,6 +76,26 @@ class RedditPost
         end
       end
     end
+  end
+
+  def gfycat_poster
+    gfycat_data.dig("gfyItem", "posterUrl")
+  rescue
+    nil
+  end
+
+  def gfycat_url
+    gfycat_data.dig("gfyItem", "mp4Url")
+  rescue
+    nil
+  end
+
+  def gfycat_data
+    @gfycat_data ||= begin
+      Request.new(URI("https://api.gfycat.com/v1/gfycats/#{@gfycat_id}")).result
+    end
+  rescue
+    nil
   end
 
   def imgur_url
