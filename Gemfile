@@ -7,4 +7,4 @@ group :test do
   gem "minitest"
 end
 
-gem 'coveralls', require: false
+gem "webrick"
