@@ -30,6 +30,10 @@
                     </video>
                 <% elsif post.media_type == "oembed" %>
                     <%= post.oembed %>
+                <% elsif post.media_type == "gallery" %>
+                    <% post.gallery_urls.each do |url| %>
+                      <a href="<%= url %>"><img src="<%= url %>"></a>
+                    <% end %>
                 <% end %>
                 ]]>
             </content>

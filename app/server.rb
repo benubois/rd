@@ -7,7 +7,7 @@ server = WEBrick::HTTPServer.new(
   DocumentRoot: File.expand_path('../../public', __FILE__)
 )
 
-server.mount "/reddit", RedditController
+server.mount "/", RedditController
 
 ["INT", "TERM", "HUP"].each do |signal|
   trap(signal) { server.shutdown }

@@ -39,6 +39,8 @@ class RedditPost
       hint = "gfycat"
     elsif @data.dig("data", "media", "oembed")
       hint = "oembed"
+    elsif @data.dig("data", "is_gallery")
+      hint = "gallery"
     end
     hint
   end
@@ -104,6 +106,12 @@ class RedditPost
 
   def imgur_image_url
     "#{imgur_url}.gif"
+  end
+
+  def gallery_urls
+    ids = @data.dig("data", "gallery_data", "items").map { _1["media_id"] }
+    items = @data.dig("data", "media_metadata").slice(*ids)
+    items.values.map { _1.dig("s", "u") }
   end
 
 end

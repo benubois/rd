@@ -2,25 +2,25 @@ class RedditController < WEBrick::HTTPServlet::AbstractServlet
 
   def do_GET(request, response)
     response.keep_alive = false
-    case request.path
-    when "/reddit"
-      feed(request, response)
+    if subreddit = request.query["subreddit"]
+      feed(subreddit, response)
+    else
+      subreddit = request.path.delete("/")
+      feed(subreddit, response)
     end
   end
 
-  def feed(request, response)
-    if subreddit = request.query["subreddit"]
-      url = uri(subreddit)
-      puts url.inspect
-      request = Request.new(url)
-      result = request.result
-      feed = RedditFeed.new(result, subreddit)
-      body = feed.render
+  def feed(subreddit, response)
+    url = uri(subreddit)
+    puts url.inspect
+    request = Request.new(url)
+    result = request.result
+    feed = RedditFeed.new(result, subreddit)
+    body = feed.render
 
-      response.status = 200
-      response.content_type = "text/xml"
-      response.body = body
-    end
+    response.status = 200
+    response.content_type = "text/xml"
+    response.body = body
   end
 
   def uri(subreddit)
