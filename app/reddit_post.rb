@@ -7,7 +7,7 @@ class RedditPost
   end
 
   def url
-    "https://www.reddit.com#{@data.dig("data", "permalink")}"
+    "https://old.reddit.com#{@data.dig("data", "permalink")}"
   end
 
   def published
