@@ -10,6 +10,7 @@ class RedditPost
     "https://old.reddit.com#{@data.dig("data", "permalink")}"
   end
 
+
   def published
     date = @data.dig("data", "created_utc") || Time.now.to_i
     date = Time.at(date)
