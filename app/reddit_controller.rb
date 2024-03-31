@@ -4,10 +4,18 @@ class RedditController < WEBrick::HTTPServlet::AbstractServlet
     response.keep_alive = false
     if subreddit = request.query["subreddit"]
       feed(subreddit, response)
+    elsif request.path == "/favicon.ico"
+      favicon(response)
     else
       subreddit = request.path.delete("/")
       feed(subreddit, response)
     end
+  end
+
+  def favicon(response)
+    response.status = 200
+    response.content_type = "image/x-icon"
+    response.body = File.read("public/favicon.ico")
   end
 
   def feed(subreddit, response)
@@ -27,8 +35,7 @@ class RedditController < WEBrick::HTTPServlet::AbstractServlet
     @uri ||= begin
       URI::HTTPS.build(
         host: "old.reddit.com",
-        path: "/r/#{subreddit}/top.json",
-        query: "limit=20",
+        path: "/r/#{subreddit}/top.json"
       )
     end
   end
