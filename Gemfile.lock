@@ -27,5 +27,8 @@ DEPENDENCIES
   webmock
   webrick
 
+RUBY VERSION
+   ruby 3.3.3p89
+
 BUNDLED WITH
-   2.4.17
+   2.5.11
