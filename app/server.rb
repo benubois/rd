@@ -12,3 +12,4 @@ server.mount "/", RedditController
 end
 
 server.start
+
